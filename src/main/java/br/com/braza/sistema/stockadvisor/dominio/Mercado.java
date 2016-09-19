@@ -2,9 +2,16 @@ package br.com.braza.sistema.stockadvisor.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_mercado")
 public class Mercado implements Serializable{
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private Integer tipo;
 	private String nome;
 	

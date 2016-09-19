@@ -1,4 +1,4 @@
-package dao.impl;
+package br.com.braza.sistema.stockadvisor.dao.impl;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

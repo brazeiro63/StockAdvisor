@@ -1,6 +1,6 @@
-package dao;
+package br.com.braza.sistema.stockadvisor.dao;
 
-import dao.impl.EM;
+import br.com.braza.sistema.stockadvisor.dao.impl.EM;
 
 public class Transaction {
 

@@ -1,4 +1,6 @@
-package dao.impl;
+package br.com.braza.sistema.stockadvisor.dao.impl;
+
+import java.util.Locale;
 
 import javax.persistence.EntityManager;
 
@@ -17,6 +19,7 @@ public class EM {
 	public static void closeLocalEm(){
 		EntityManager em = localEm.get();
 		if (em != null) {
+			localEm.get().getTransaction().commit();
 			localEm.get().close();
 			localEm.set(null);
 		}

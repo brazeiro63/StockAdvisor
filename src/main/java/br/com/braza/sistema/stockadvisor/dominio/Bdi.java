@@ -2,12 +2,19 @@ package br.com.braza.sistema.stockadvisor.dominio;
 
 import java.io.Serializable;
 
-public class Bdi implements Serializable{
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_bdi")
+public class Bdi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private Integer codigo;
 	private String nome;
-	
+
 	public Bdi() {
 	}
 
@@ -62,7 +69,5 @@ public class Bdi implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

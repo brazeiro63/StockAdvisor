@@ -1,5 +1,6 @@
 package br.com.braza.sistema.stockadvisor.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,7 +9,6 @@ import javax.persistence.Query;
 import br.com.braza.sistema.stockadvisor.dao.PapelDao;
 import br.com.braza.sistema.stockadvisor.dominio.Papel;
 
-
 public class PapelDaoImpl implements PapelDao {
 
 	private EntityManager em;
@@ -16,7 +16,7 @@ public class PapelDaoImpl implements PapelDao {
 	public PapelDaoImpl() {
 		this.em = EM.getLocalEm();
 	}
-	
+
 	@Override
 	public void inserirAtualizar(Papel x) {
 		if (x.getCodPapel() != null) {
@@ -24,6 +24,7 @@ public class PapelDaoImpl implements PapelDao {
 		}
 		em.persist(x);
 	}
+
 	@Override
 	public void excluir(Papel x) {
 		x = em.merge(x);
@@ -45,11 +46,20 @@ public class PapelDaoImpl implements PapelDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Papel> buscarPorNome(String nome) {
-		String jpql = "SELECT x FROM Papel x WHERE TRIM(x.codigoNegociacao) = TRIM(:p1) ORDER BY x.codigoNegociacao";
+	public Papel buscarPorNome(String nome) {
+		String jpql = "SELECT  x FROM Papel x WHERE TRIM(x.codigoNegociacao) = TRIM(:p1) ORDER BY x.codigoNegociacao";
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", nome);
-		return query.getResultList();
+
+		ArrayList<Papel> r = null;
+
+		if (query.getResultList().size() > 0) {
+			r = (ArrayList<Papel>) query.getResultList();
+			return r.get(0);
+		}
+		
+		return null;
+
 	}
-	
+
 }

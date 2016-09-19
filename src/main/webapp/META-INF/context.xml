@@ -9,5 +9,5 @@
 	username="root" 
 	password="root"
 	driverClassName="com.mysql.jdbc.Driver" 
-	url="jdbc:mysql://localhost:3306/stockAdvisor?autoreconnect=true" />
+	url="jdbc:mysql://localhost:3306/stockadvisor?autoreconnect=true" />
 </Context>

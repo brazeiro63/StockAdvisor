@@ -2,6 +2,11 @@ package br.com.braza.sistema.stockadvisor.dominio;
 
 import java.util.Date;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue( value="OPCAO")
 public class Opcao extends Papel {
 	private static final long serialVersionUID = 1L;
 

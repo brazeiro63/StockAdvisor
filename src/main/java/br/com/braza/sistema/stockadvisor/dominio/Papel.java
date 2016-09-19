@@ -4,18 +4,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Papel implements Serializable{
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_papel")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipoPapel")
+public class Papel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codPapel;
 	private String codigoNegociacao;
 	private String empresa;
 	private String codigoIsin;
+	private String especificacao;
 
 	private Mercado mercado;
 	private Bdi bdi;
-	private Especificacao especificacao;
 
+	@OneToMany(mappedBy="papel")
 	private List<Cotacao> cotacoes;
 
 	public Papel() {
@@ -23,7 +40,7 @@ public class Papel implements Serializable{
 	}
 
 	public Papel(Integer codPapel, String codigoNegociacao, String empresa, String codigoIsin, Mercado mercado, Bdi bdi,
-			Especificacao especificacao) {
+			String especificacao) {
 		super();
 		this.codPapel = codPapel;
 		this.codigoNegociacao = codigoNegociacao;
@@ -83,11 +100,11 @@ public class Papel implements Serializable{
 		this.bdi = bdi;
 	}
 
-	public Especificacao getEspecificacao() {
+	public String getEspecificacao() {
 		return especificacao;
 	}
 
-	public void setEspecificacao(Especificacao especificacao) {
+	public void setEspecificacao(String especificacao) {
 		this.especificacao = especificacao;
 	}
 
@@ -102,8 +119,8 @@ public class Papel implements Serializable{
 	public void addCotacao(Cotacao x) {
 		this.cotacoes.add(x);
 	}
-	
-	public boolean removeCotacao(Cotacao x){
+
+	public boolean removeCotacao(Cotacao x) {
 		return this.cotacoes.remove(x);
 	}
 

@@ -2,11 +2,16 @@ package br.com.braza.sistema.stockadvisor.dominio;
 
 import java.util.Date;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue( value="TERMO")
 public class Termo extends Papel {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer prazo;
-	private Date dataVencimeto;
+	private String prazo;
+	private Date dataVencimento;
 	private Double precoExercicioEmPontos;
 
 	private IndiceCorrecao indiceCorrecao;
@@ -15,28 +20,28 @@ public class Termo extends Papel {
 		super();
 	}
 
-	public Termo(Integer prazo, Date dataVencimeto, Double precoExercicioEmPontos, IndiceCorrecao indiceCorrecao) {
+	public Termo(String prazo, Date dataVencimeto, Double precoExercicioEmPontos, IndiceCorrecao indiceCorrecao) {
 		super();
 		this.prazo = prazo;
-		this.dataVencimeto = dataVencimeto;
+		this.dataVencimento = dataVencimeto;
 		this.precoExercicioEmPontos = precoExercicioEmPontos;
 		this.indiceCorrecao = indiceCorrecao;
 	}
 
-	public Integer getPrazo() {
+	public String getPrazo() {
 		return prazo;
 	}
 
-	public void setPrazo(Integer prazo) {
+	public void setPrazo(String prazo) {
 		this.prazo = prazo;
 	}
 
-	public Date getDataVencimeto() {
-		return dataVencimeto;
+	public Date getDataVencimento() {
+		return dataVencimento;
 	}
 
-	public void setDataVencimeto(Date dataVencimeto) {
-		this.dataVencimeto = dataVencimeto;
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
 	}
 
 	public Double getPrecoExercicioEmPontos() {
@@ -57,7 +62,7 @@ public class Termo extends Papel {
 
 	@Override
 	public String toString() {
-		return "Termo [prazo=" + prazo + ", dataVencimeto=" + dataVencimeto + ", precoExercicioEmPontos="
+		return "Termo [prazo=" + prazo + ", dataVencimeto=" + dataVencimento + ", precoExercicioEmPontos="
 				+ precoExercicioEmPontos + "]";
 	}
 	

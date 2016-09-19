@@ -1,16 +1,16 @@
 package br.com.braza.sistema.stockadvisor.dominio;
 
-
 import java.io.Serializable;
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-
-public class RegistroCotacao implements Serializable{
+public class RegistroCotacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private Long tipreg;
-	private Calendar datpre;
+	private Date datpre;
 	private String codbdi;
 	private String codneg;
 	private Long tpmerc;
@@ -30,19 +30,19 @@ public class RegistroCotacao implements Serializable{
 	private Double voltot;
 	private Double preexe;
 	private Long indopc;
-	private Calendar datven;
+	private Date datven;
 	private Long fatcot;
 	private Double ptoexe;
 	private String codisi;
 	private Long dismes;
-	
-	
+
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public RegistroCotacao() {
 		super();
 	}
-	
-		public Integer getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
@@ -50,10 +50,10 @@ public class RegistroCotacao implements Serializable{
 		this.id = id;
 	}
 
-		public RegistroCotacao(Integer id, Long tipreg, Calendar datpre, String codbdi, String codneg, Long tpmerc,
+	public RegistroCotacao(Integer id, Long tipreg, Date datpre, String codbdi, String codneg, Long tpmerc,
 			String nomres, String especi, String prazot, String modref, Double preabe, Double premax, Double premin,
 			Double premed, Double preult, Double preofc, Double preofv, Long totneg, Long quatot, Double voltot,
-			Double preexe, Long indopc, Calendar datven, Long fatcot, Double ptoexe, String codisi, Long dismes) {
+			Double preexe, Long indopc, Date datven, Long fatcot, Double ptoexe, String codisi, Long dismes) {
 		super();
 		this.id = id;
 		this.tipreg = tipreg;
@@ -84,46 +84,45 @@ public class RegistroCotacao implements Serializable{
 		this.dismes = dismes;
 	}
 
-
-
 	public Long getTipreg() {
 		return tipreg;
 	}
-	
+
 	public void setTipreg(Long tipreg) {
 		this.tipreg = tipreg;
 	}
-	
+
 	public void setDatpre(Long datpre) {
 
-		int year = (int) (datpre/10000);
-		int month = (int) (datpre - year * 10000)/100;
-		int day = (int) (datpre - (year*10000 + month * 100));
-		
-//		int year = Long.parseInt(datpre.substring(0, 4));
-//		int month = Long.parseInt(datpre.substring(4, 6));
-//		int day = Long.parseInt(datpre.substring(6, 8));
-		
-		this.datpre = Calendar.getInstance();
-		this.datpre.clear();
-		this.datpre.set(year, month, day);
+		Integer year = (int) (datpre / 10000);
+		Integer month = (int) (datpre - year * 10000) / 100;
+		Integer day = (int) (datpre - (year * 10000 + month * 100));
+
+		try {
+		this.datpre = sdf.parse(day.toString() + "/" + month.toString() + "/" + year.toString());
+	} catch (ParseException e) {
+		e.printStackTrace();
+	}
+
 	}
 
 	public void setDatven(Long datven) {
-		int year = (int) (datven/10000);
-		int month = (int) (datven - year * 10000)/100;
-		int day = (int) (datven - (year*10000 + month * 100));
-				
-		this.datpre = Calendar.getInstance();
-		this.datpre.clear();
-		this.datpre.set(year, month, day);
+		Integer year = (int) (datven / 10000);
+		Integer month = (int) (datven - year * 10000) / 100;
+		Integer day = (int) (datven - (year * 10000 + month * 100));
+
+		try {
+			this.datven = sdf.parse(day.toString() + "/" + month.toString() + "/" + year.toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public Calendar getDatpre() {
+	public Date getDatpre() {
 		return datpre;
 	}
 
-	public void setDatpre(Calendar datpre) {
+	public void setDatpre(Date datpre) {
 		this.datpre = datpre;
 	}
 
@@ -279,11 +278,11 @@ public class RegistroCotacao implements Serializable{
 		this.indopc = indopc;
 	}
 
-	public Calendar getDatven() {
+	public Date getDatven() {
 		return datven;
 	}
 
-	public void setDatven(Calendar datven) {
+	public void setDatven(Date datven) {
 		this.datven = datven;
 	}
 

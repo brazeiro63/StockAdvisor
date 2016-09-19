@@ -3,9 +3,21 @@ package br.com.braza.sistema.stockadvisor.dominio;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_cotacao")
 public class Cotacao implements Serializable{
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 	
 	private Integer codCotacao;
 	private Date dataCotacao;
 	private String moedaReferencia;
@@ -20,6 +32,8 @@ public class Cotacao implements Serializable{
 	private Long quantidadePapeisNegociados;
 	private Double volumeNegocios;
 	
+	@ManyToOne
+	@JoinColumn(name="cotacoes")
 	private Papel papel;
 
 	public Cotacao() {
