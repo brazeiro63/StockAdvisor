@@ -12,4 +12,5 @@ public interface PapelDao {
 	public List<Papel> buscarTodos();
 	
 	public Papel buscarPorNome(String nome);
+	public Papel buscarPorCodigoENome(Integer codPapel, String codigoNegociacao);
 }

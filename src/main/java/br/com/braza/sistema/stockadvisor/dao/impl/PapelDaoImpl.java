@@ -62,4 +62,23 @@ public class PapelDaoImpl implements PapelDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Papel buscarPorCodigoENome(Integer codigo, String nome) {
+		String jpql = "SELECT  x FROM Papel x WHERE x.codPapel = :p1 AND TRIM(x.codigoNegociacao) = TRIM(:p2)";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", codigo);
+		query.setParameter("p2", nome);
+
+		ArrayList<Papel> r = null;
+
+		if (query.getResultList().size() > 0) {
+			r = (ArrayList<Papel>) query.getResultList();
+			return r.get(0);
+		}
+		
+		return null;
+
+	}
+
 }
