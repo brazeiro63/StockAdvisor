@@ -1,8 +1,7 @@
 package br.com.braza.sistema.stockadvisor.dao.impl;
 
-import java.util.Locale;
-
 import javax.persistence.EntityManager;
+
 
 public class EM {
 	private static ThreadLocal<EntityManager> localEm = new ThreadLocal<EntityManager>();
