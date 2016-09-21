@@ -1,4 +1,4 @@
-package br.com.braza.sistema.stockadvisor.service;
+package br.com.braza.sistema.stockadvisor.servico;
 
 public class ServicoException extends Exception {
 	private static final long serialVersionUID = 1L;

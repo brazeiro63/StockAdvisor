@@ -13,4 +13,5 @@ public interface PapelDao {
 	
 	public Papel buscarPorNome(String nome);
 	public Papel buscarPorCodigoENome(Integer codPapel, String codigoNegociacao);
+	public List<Papel> buscarTodosOrdenadosPorNome();
 }

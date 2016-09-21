@@ -13,4 +13,6 @@ public interface CotacaoDao {
 	public List<Cotacao> buscarTodos();
 	
 	public List<Cotacao> buscarPorData(Date data);
+	public Cotacao buscarPorNomeEData(String codigoNegociacao, Date dataCotacao);
+	public Cotacao buscarPorCodigoNomeEData(Integer codCotacao, String codigoNegociacao, Date dataCotacao);
 }

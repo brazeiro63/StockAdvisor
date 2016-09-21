@@ -2,6 +2,7 @@ package br.com.braza.sistema.stockadvisor.dao;
 
 import br.com.braza.sistema.stockadvisor.dao.impl.AcaoDaoImpl;
 import br.com.braza.sistema.stockadvisor.dao.impl.BdiDaoImpl;
+import br.com.braza.sistema.stockadvisor.dao.impl.CotacaoDaoImpl;
 import br.com.braza.sistema.stockadvisor.dao.impl.IndiceCorrecaoDaoImpl;
 import br.com.braza.sistema.stockadvisor.dao.impl.MercadoDaoImpl;
 import br.com.braza.sistema.stockadvisor.dao.impl.OpcaoDaoImpl;
@@ -36,6 +37,10 @@ public class DaoFactory {
 
 	public static MercadoDao criarMercadoDao() {
 		return new MercadoDaoImpl();
+	}
+
+	public static CotacaoDao criarCotacaoDao() {
+		return new CotacaoDaoImpl();
 	}
 
 }

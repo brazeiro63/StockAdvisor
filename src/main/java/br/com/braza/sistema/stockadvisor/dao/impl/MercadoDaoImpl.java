@@ -1,5 +1,6 @@
 package br.com.braza.sistema.stockadvisor.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -52,4 +53,21 @@ public class MercadoDaoImpl implements MercadoDao {
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Mercado buscarPorCodigoENome(Integer codigo, String nome) {
+		String jpql = "SELECT  x FROM Mercado x WHERE x.codMercado = :p1 AND TRIM(x.nome) = TRIM(:p2)";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", codigo);
+		query.setParameter("p2", nome);
+
+		ArrayList<Mercado> r = null;
+
+		if (query.getResultList().size() > 0) {
+			r = (ArrayList<Mercado>) query.getResultList();
+			return r.get(0);
+		}
+		
+		return null;
+	}
 }

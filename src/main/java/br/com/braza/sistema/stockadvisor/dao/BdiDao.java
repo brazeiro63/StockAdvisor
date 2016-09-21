@@ -12,4 +12,5 @@ public interface BdiDao {
 	public List<Bdi> buscarTodos();
 	
 	public List<Bdi> buscarPorNome(String nome);
+	public Bdi buscarPorCodigoENome(Integer codigo, String nome);
 }

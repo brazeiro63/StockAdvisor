@@ -12,4 +12,5 @@ public interface IndiceCorrecaoDao {
 	public List<IndiceCorrecao> buscarTodos();
 	
 	public List<IndiceCorrecao> buscarPorNome(String nome);
+	public IndiceCorrecao buscarPorCodigoENome(Integer codigo, String indice);
 }

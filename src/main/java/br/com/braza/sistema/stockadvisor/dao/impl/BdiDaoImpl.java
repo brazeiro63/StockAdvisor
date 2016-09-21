@@ -1,5 +1,6 @@
 package br.com.braza.sistema.stockadvisor.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,24 @@ public class BdiDaoImpl implements BdiDao {
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", nome);
 		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Bdi buscarPorCodigoENome(Integer codigo, String nome) {
+		String jpql = "SELECT  x FROM Bdi x WHERE x.codBdi = :p1 AND TRIM(x.nome) = TRIM(:p2)";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", codigo);
+		query.setParameter("p2", nome);
+
+		ArrayList<Bdi> r = null;
+
+		if (query.getResultList().size() > 0) {
+			r = (ArrayList<Bdi>) query.getResultList();
+			return r.get(0);
+		}
+		
+		return null;
 	}
 	
 }

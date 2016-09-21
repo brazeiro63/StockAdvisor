@@ -1,5 +1,6 @@
 package br.com.braza.sistema.stockadvisor.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,24 @@ public class IndiceCorrecaoDaoImpl implements IndiceCorrecaoDao {
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", nome);
 		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public IndiceCorrecao buscarPorCodigoENome(Integer codigo, String indice) {
+		String jpql = "SELECT x FROM IndiceCorrecao x WHERE c.codigo = codigo AND TRIM(x.indice) = TRIM(:p1)";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", codigo);
+		query.setParameter("p2", indice);
+		
+		ArrayList<IndiceCorrecao> r = null;
+
+		if (query.getResultList().size() > 0) {
+			r = (ArrayList<IndiceCorrecao>) query.getResultList();
+			return r.get(0);
+		}
+		
+		return null;
 	}
 	
 }

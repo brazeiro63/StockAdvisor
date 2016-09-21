@@ -46,6 +46,14 @@ public class PapelDaoImpl implements PapelDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Papel> buscarTodosOrdenadosPorNome() {
+		String jpql = "SELECT x FROM Papel x ORDER BY x.codigoNegociacao;";
+		Query query = em.createQuery(jpql);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public Papel buscarPorNome(String nome) {
 		String jpql = "SELECT  x FROM Papel x WHERE TRIM(x.codigoNegociacao) = TRIM(:p1) ORDER BY x.codigoNegociacao";
 		Query query = em.createQuery(jpql);
