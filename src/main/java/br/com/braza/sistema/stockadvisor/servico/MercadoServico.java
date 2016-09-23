@@ -17,9 +17,9 @@ public class MercadoServico {
 
 	public void Inserir(Mercado x) throws ServicoException {
 		try {
-			Mercado aux = dao.buscarPorNome(x.getNome()).get(0);
+			Mercado aux = dao.buscarUmPorNome(x.getNome());
 			if (aux != null) {
-				throw new ServicoException("Já existe papel com o mesmo código de negociação cadastrado.", 1);
+				throw new ServicoException("Já existe Mercado com o mesmo nome cadastrado.", 1);
 			}
 
 			Transaction.begin();
@@ -30,7 +30,7 @@ public class MercadoServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao inserir Mercado: "  + x.toString()+ "\n" + e.getMessage());
 		}
 
 	}
@@ -50,7 +50,7 @@ public class MercadoServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao atualizar Mercado: "  + x.toString()+ "\n" + e.getMessage());
 		}
 	}
 
@@ -64,7 +64,7 @@ public class MercadoServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao excluir Mercado: "  + x.toString()+ "\n" + e.getMessage());
 		}
 	}
 	

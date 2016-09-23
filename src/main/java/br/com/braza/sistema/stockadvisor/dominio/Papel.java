@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_papel")
+@Table(name = "tb_papel")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoPapel")
 public class Papel implements Serializable {
@@ -28,23 +28,25 @@ public class Papel implements Serializable {
 	private String empresa;
 	private String codigoIsin;
 	private String especificacao;
+	private Integer fatorCotacao;
 
 	private Mercado mercado;
 	private Bdi bdi;
 
-	@OneToMany(mappedBy="papel")
+	@OneToMany(mappedBy = "papel")
 	private List<Cotacao> cotacoes;
 
 	public Papel() {
 		this.cotacoes = new ArrayList<Cotacao>();
 	}
 
-	public Papel(Integer codPapel, String codigoNegociacao, String empresa, String codigoIsin, Mercado mercado, Bdi bdi,
+	public Papel(Integer codPapel, String codigoNegociacao, String empresa, Integer fatorCotacao,String codigoIsin, Mercado mercado, Bdi bdi,
 			String especificacao) {
 		super();
 		this.codPapel = codPapel;
 		this.codigoNegociacao = codigoNegociacao;
 		this.empresa = empresa;
+		this.fatorCotacao = fatorCotacao;
 		this.codigoIsin = codigoIsin;
 		this.mercado = mercado;
 		this.bdi = bdi;
@@ -108,6 +110,14 @@ public class Papel implements Serializable {
 		this.especificacao = especificacao;
 	}
 
+	public Integer getFatorCotacao() {
+		return fatorCotacao;
+	}
+
+	public void setFatorCotacao(Integer fatorCotacao) {
+		this.fatorCotacao = fatorCotacao;
+	}
+
 	public List<Cotacao> getCotacoes() {
 		return cotacoes;
 	}
@@ -127,7 +137,9 @@ public class Papel implements Serializable {
 	@Override
 	public String toString() {
 		return "Papel [codPapel=" + codPapel + ", codigoNegociacao=" + codigoNegociacao + ", empresa=" + empresa
-				+ ", codigoIsin=" + codigoIsin + "]";
+				+ ", codigoIsin=" + codigoIsin + ", fatorCotacao=" + fatorCotacao + ", mercado="
+				+ (mercado == null ? "Vazio" : mercado.toString()) + ", bdi=" + (bdi == null ? "Vazio" : bdi.toString())
+				+ "]";
 	}
 
 	@Override

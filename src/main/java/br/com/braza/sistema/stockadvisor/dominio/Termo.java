@@ -6,9 +6,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue( value="TERMO")
+@DiscriminatorValue(value = "TERMO")
 public class Termo extends Papel {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String prazo;
 	private Date dataVencimento;
@@ -62,8 +62,8 @@ public class Termo extends Papel {
 
 	@Override
 	public String toString() {
-		return "Termo [prazo=" + prazo + ", dataVencimeto=" + dataVencimento + ", precoExercicioEmPontos="
-				+ precoExercicioEmPontos + "]";
+		return  "Super(): " + super.toString() + "\n" + " Termo [prazo=" + prazo + ", dataVencimeto=" + dataVencimento + ", precoExercicioEmPontos="
+				+ precoExercicioEmPontos + ", indiceCorrecao=" + (indiceCorrecao == null ? "Vazio" : indiceCorrecao.toString()) + "]";
 	}
-	
+
 }

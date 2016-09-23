@@ -13,4 +13,5 @@ public interface MercadoDao {
 	
 	public List<Mercado> buscarPorNome(String nome);
 	public Mercado buscarPorCodigoENome(Integer tipo, String nome);
+	public Mercado buscarUmPorNome(String nome);
 }

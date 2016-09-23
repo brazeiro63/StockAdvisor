@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.com.braza.sistema.stockadvisor.dao.IndiceCorrecaoDao;
+import br.com.braza.sistema.stockadvisor.dominio.Bdi;
 import br.com.braza.sistema.stockadvisor.dominio.IndiceCorrecao;
 
 
@@ -51,6 +52,17 @@ public class IndiceCorrecaoDaoImpl implements IndiceCorrecaoDao {
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", nome);
 		return query.getResultList();
+	}
+
+	@Override
+	public IndiceCorrecao buscarUmPorNome(String nome) {
+		String jpql = "SELECT x FROM IndiceCorrecao x WHERE x.indice = :p1";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", nome);
+		if (query.getResultList().size()>0){
+			return (IndiceCorrecao) query.getResultList().get(0);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

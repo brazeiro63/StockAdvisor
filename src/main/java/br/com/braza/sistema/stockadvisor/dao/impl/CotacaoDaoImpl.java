@@ -57,7 +57,7 @@ public class CotacaoDaoImpl implements CotacaoDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Cotacao buscarPorNomeEData(String codigoNegociacao, Date dataCotacao) {
-		String jpql = "SELECT  x FROM Cotacao x WHERE x.codigoNegociacao = :p1 AND dataCotacao = :p2";
+		String jpql = "SELECT  x FROM Cotacao x WHERE x.papel.codigoNegociacao = :p1 AND dataCotacao = :p2";
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", codigoNegociacao);
 		query.setParameter("p2", dataCotacao);

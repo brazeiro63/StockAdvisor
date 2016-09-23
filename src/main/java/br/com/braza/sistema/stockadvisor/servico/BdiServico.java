@@ -17,9 +17,9 @@ public class BdiServico {
 
 	public void Inserir(Bdi x) throws ServicoException {
 		try {
-			Bdi aux = dao.buscarPorNome(x.getNome()).get(0);
+			Bdi aux = dao.buscarUmPorNome(x.getNome());
 			if (aux != null) {
-				throw new ServicoException("Já existe papel com o mesmo código de negociação cadastrado.", 1);
+				throw new ServicoException("Já existe BDI com o mesmo código de negociação cadastrado.", 1);
 			}
 
 			Transaction.begin();
@@ -30,7 +30,8 @@ public class BdiServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao inserir BDI: " + x.toString()+ "\n" + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -50,7 +51,7 @@ public class BdiServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao atualizar BDI: " + x.toString()+ "\n" + e.getMessage());
 		}
 	}
 
@@ -64,7 +65,7 @@ public class BdiServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao excluir BDI: " + x.toString()+ "\n" + e.getMessage());
 		}
 	}
 	

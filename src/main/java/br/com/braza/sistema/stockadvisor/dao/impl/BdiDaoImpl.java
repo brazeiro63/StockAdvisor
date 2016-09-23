@@ -47,10 +47,21 @@ public class BdiDaoImpl implements BdiDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Bdi> buscarPorNome(String nome) {
-		String jpql = "SELECT x FROM Bdi x WHERE TRIM(x.codigoNegociacao) = TRIM(:p1) ORDER BY x.codigoNegociacao";
+		String jpql = "SELECT x FROM Bdi x WHERE x.nome = :p1";
 		Query query = em.createQuery(jpql);
 		query.setParameter("p1", nome);
 		return query.getResultList();
+	}	
+	
+	@Override
+	public Bdi buscarUmPorNome(String nome) {
+		String jpql = "SELECT x FROM Bdi x WHERE x.nome = :p1";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", nome);
+		if (query.getResultList().size()>0){
+			return (Bdi) query.getResultList().get(0);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

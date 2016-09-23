@@ -63,8 +63,8 @@ public class Opcao extends Papel {
 
 	@Override
 	public String toString() {
-		return "Opcao [precoExercicio=" + precoExercicio + ", precoExercicioEmPontos=" + precoExercicioEmPontos
-				+ ", dataVencimento=" + dataVencimento + "]";
+		return "Super() : " + super.toString() + "\n" +  "Opcao [precoExercicio=" + precoExercicio + ", precoExercicioEmPontos=" + precoExercicioEmPontos
+				+ ", dataVencimento=" + dataVencimento + ", indiceCorrecao=" + indiceCorrecao.toString() +"]";
 	}
 
 }

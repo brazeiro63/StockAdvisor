@@ -53,6 +53,17 @@ public class MercadoDaoImpl implements MercadoDao {
 		return query.getResultList();
 	}
 	
+	@Override
+	public Mercado buscarUmPorNome(String nome) {
+		String jpql = "SELECT x FROM Mercado x WHERE x.nome = :p1";
+		Query query = em.createQuery(jpql);
+		query.setParameter("p1", nome);
+		if (query.getResultList().size()>0){
+			return (Mercado) query.getResultList().get(0);
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Mercado buscarPorCodigoENome(Integer codigo, String nome) {

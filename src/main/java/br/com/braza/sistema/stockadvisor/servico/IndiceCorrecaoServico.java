@@ -17,9 +17,9 @@ public class IndiceCorrecaoServico {
 
 	public void Inserir(IndiceCorrecao x) throws ServicoException {
 		try {
-			IndiceCorrecao aux = dao.buscarPorNome(x.getIndice()).get(0);
+			IndiceCorrecao aux = dao.buscarUmPorNome(x.getIndice());
 			if (aux != null) {
-				throw new ServicoException("Já existe papel com o mesmo código de negociação cadastrado.", 1);
+				throw new ServicoException("Já existe Indice de Correcao com o mesmo indice cadastrado.", 1);
 			}
 
 			Transaction.begin();
@@ -30,7 +30,7 @@ public class IndiceCorrecaoServico {
 			if (Transaction.isActive()) {
 				Transaction.rollback();
 			}
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Erro ao inserir ou atualizar Indice de Correcao: " + e.getMessage());
 		}
 
 	}
