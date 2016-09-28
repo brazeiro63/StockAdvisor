@@ -33,15 +33,15 @@ public class Papel implements Serializable {
 	private Mercado mercado;
 	private Bdi bdi;
 
-	@OneToMany(mappedBy = "papel")
+	@OneToMany
 	private List<Cotacao> cotacoes;
 
 	public Papel() {
-		this.cotacoes = new ArrayList<Cotacao>();
+		this.cotacoes = new ArrayList<>();
 	}
 
-	public Papel(Integer codPapel, String codigoNegociacao, String empresa, Integer fatorCotacao,String codigoIsin, Mercado mercado, Bdi bdi,
-			String especificacao) {
+	public Papel(Integer codPapel, String codigoNegociacao, String empresa, Integer fatorCotacao, String codigoIsin,
+			Mercado mercado, Bdi bdi, String especificacao) {
 		super();
 		this.codPapel = codPapel;
 		this.codigoNegociacao = codigoNegociacao;
@@ -51,7 +51,7 @@ public class Papel implements Serializable {
 		this.mercado = mercado;
 		this.bdi = bdi;
 		this.especificacao = especificacao;
-		this.cotacoes = new ArrayList<Cotacao>();
+		this.cotacoes = new ArrayList<>();
 	}
 
 	public Integer getCodPapel() {

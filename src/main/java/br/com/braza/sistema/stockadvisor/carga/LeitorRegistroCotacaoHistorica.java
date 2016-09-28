@@ -37,7 +37,7 @@ public class LeitorRegistroCotacaoHistorica {
 		MercadoServico mercadoServico = new MercadoServico();
 		BdiServico bdiServico = new BdiServico();
 		PapelServico papelServico = new PapelServico();
-		
+		CotacaoServico cotacaoServico = new CotacaoServico();
 
 		Ordenacao ord = new Ordenacao();
 		ArrayList<String> arquivoOrdenado = ord.ordenar();
@@ -47,20 +47,42 @@ public class LeitorRegistroCotacaoHistorica {
 
 		Papel rPapel = null;
 		RegistroCotacao registroCotacao;
+		String papelAux = new String();
 
 		int qtdReg = 0;
 
 		for (String registro : arquivoOrdenado) {
-			
-			String papelAux = new String();
+
 			registroCotacao = LeRegistro(registro, descriptors, RegistroCotacao.class);
 
-			if (!registroCotacao.getCodneg().equals(papelAux)) {
-				rPapel = carregarPapel(correcaoServico, bdiServico, mercadoServico, papelServico, registroCotacao);
+			if (!registroCotacao.getCodneg().substring(4, 5).matches("[A-X]")
+					&& !registroCotacao.getCodneg().trim().substring(5).contains("T")
+					&& registroCotacao.getCodneg().substring(4, 5).matches("[1-9]")) {
+
+				rPapel = extrairPapel(correcaoServico, bdiServico, mercadoServico, papelServico, registroCotacao);
+
+				if (!registroCotacao.getCodneg().equals(papelAux)) {
+					try {
+						papelServico.atualizar(rPapel);
+					} catch (ServicoException e) {
+						System.out.println("Erro ao atualizar papel com nova cotação: \n" + rPapel.toString() + "\n"
+								+ e.getMessage());
+					}
+				}
+
+				Cotacao extrairCotacao = extrairCotacao(registroCotacao);
+				extrairCotacao.setPapel(rPapel);
+				try {
+					cotacaoServico.Inserir(extrairCotacao);
+				} catch (ServicoException e) {
+					System.out
+							.println("Erro ao inserir cotacao: \n" + extrairCotacao.toString() + "\n" + e.getMessage());
+				}
+
+				// rPapel.addCotacao(extrairCotacao);
+				papelAux = registroCotacao.getCodneg();
+				qtdReg++;
 			}
-			carregarCotacao(rPapel, registroCotacao);
-			papelAux = registroCotacao.getCodneg();
-			qtdReg++;
 		}
 
 		System.out.println("Registros recebidos: " + registros + "\n");
@@ -68,9 +90,8 @@ public class LeitorRegistroCotacaoHistorica {
 		System.out.println("o programa executou em " + (System.currentTimeMillis() - tempoInicial));
 	}
 
-	private static void carregarCotacao(Papel papel, RegistroCotacao registroCotacao) {
+	private static Cotacao extrairCotacao(RegistroCotacao registroCotacao) {
 		Cotacao cotacao = new Cotacao();
-		List<Cotacao> cotacoes = papel.getCotacoes();
 
 		cotacao.setDataCotacao(registroCotacao.getDatpre());
 		cotacao.setMoedaReferencia(registroCotacao.getModref());
@@ -84,24 +105,8 @@ public class LeitorRegistroCotacaoHistorica {
 		cotacao.setQuantidadeNegocios(registroCotacao.getQuatot().intValue());
 		cotacao.setQuantidadePapeisNegociados(registroCotacao.getTotneg());
 		cotacao.setVolumeNegocios(registroCotacao.getVoltot());
-		cotacao.setPapel(papel);
 
-		cotacoes.add(cotacao);
-		papel.setCotacoes(cotacoes);
-
-		CotacaoServico cs = new CotacaoServico();
-		try {
-			cs.Inserir(cotacao);
-		} catch (ServicoException e) {
-			System.out.println("Erro ao inserir nova cotação: \n" + cotacao.toString() + "\n" + e.getMessage());
-		}
-
-		PapelServico ps = new PapelServico();
-		try {
-			ps.atualizar(papel);
-		} catch (ServicoException e) {
-			System.out.println("Erro ao atualizar papel com nova cotação: \n" + papel.toString() + "\n" + e.getMessage());
-		}
+		return cotacao;
 	}
 
 	private static void carregarTabelaBdi() {
@@ -151,7 +156,8 @@ public class LeitorRegistroCotacaoHistorica {
 				bdiServico.Inserir(bdi);
 			}
 		} catch (ServicoException e1) {
-			System.out.println("Erro ao carregar tabela BDI.\nRegistros inseridos: " + bdis.size() + "\n" + e1.getMessage());
+			System.out.println(
+					"Erro ao carregar tabela BDI.\nRegistros inseridos: " + bdis.size() + "\n" + e1.getMessage());
 		}
 	}
 
@@ -174,7 +180,8 @@ public class LeitorRegistroCotacaoHistorica {
 				mercadoServico.Inserir(mercado);
 			}
 		} catch (ServicoException e1) {
-			System.out.println("Erro ao carregar tabela Mercado.\nRegistros inseridos: " + mercados.size() + "\n" + e1.getMessage());
+			System.out.println("Erro ao carregar tabela Mercado.\nRegistros inseridos: " + mercados.size() + "\n"
+					+ e1.getMessage());
 		}
 	}
 
@@ -193,29 +200,29 @@ public class LeitorRegistroCotacaoHistorica {
 		ics.add(new IndiceCorrecao(9, "URV", "CORREÇÃO PELA URV"));
 		try {
 			for (IndiceCorrecao indiceCorrecao : ics) {
-				correcaoServico.Inserir(indiceCorrecao);				
+				correcaoServico.Inserir(indiceCorrecao);
 			}
 		} catch (ServicoException e1) {
-			System.out.println("Erro ao carregar tabela Indice de correcao. \nRegistros inseridos: " + ics.size() + "\n" + e1.getMessage());
+			System.out.println("Erro ao carregar tabela Indice de correcao. \nRegistros inseridos: " + ics.size() + "\n"
+					+ e1.getMessage());
 		}
 	}
 
-	private static Papel carregarPapel(IndiceCorrecaoServico correcaoServico, BdiServico bdiServico,
+	private static Papel extrairPapel(IndiceCorrecaoServico correcaoServico, BdiServico bdiServico,
 			MercadoServico mercadoServico, PapelServico papelServico, RegistroCotacao registroCotacao)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NumberFormatException {
 
 		Integer codigoPapel = null;
-		Papel sPapel, papelInserido = null;
+		Papel papelAux = new Papel();
+		Papel sPapel = new Papel();
 
-		sPapel = papelServico.buscarPorNome(registroCotacao.getCodneg());
+		papelAux = papelServico.buscarPorNome(registroCotacao.getCodneg());
 
-		if (sPapel == null) {
-			sPapel = new Papel();
-		} else {
-			codigoPapel = sPapel.getCodPapel();
+		if (papelAux != null) {
+			codigoPapel = papelAux.getCodPapel();
 		}
 
-		if (registroCotacao.getPreexe() > Double.parseDouble("0.0")) {
+		if (registroCotacao.getCodneg().substring(4, 5).matches("[A-X]")) {
 			Opcao papel = new Opcao();
 			papel.setPrecoExercicio(registroCotacao.getPreexe());
 			papel.setPrecoExercicioEmPontos(registroCotacao.getPtoexe());
@@ -223,20 +230,31 @@ public class LeitorRegistroCotacaoHistorica {
 
 			IndiceCorrecao indCorr = correcaoServico.buscar(registroCotacao.getIndopc().intValue());
 			papel.setIndiceCorrecao(indCorr);
-			sPapel = papel;
-		} else if (registroCotacao.getCodbdi().equals("06") || registroCotacao.getCodbdi().equals("12")
-				|| registroCotacao.getCodbdi().equals("96")) {
-			Acao papel = new Acao();
-			sPapel = papel;
-		} else {
+
+			sPapel = (Papel) papel;
+
+		} else if (registroCotacao.getCodneg().trim().substring(5).contains("T")) {
 			Termo papel = new Termo();
+
 			papel.setPrazo(registroCotacao.getPrazot());
 			papel.setPrecoExercicioEmPontos(registroCotacao.getPtoexe());
 			papel.setDataVencimento(registroCotacao.getDatven());
 
 			IndiceCorrecao indCorr = correcaoServico.buscar(registroCotacao.getIndopc().intValue());
 			papel.setIndiceCorrecao(indCorr);
-			sPapel = papel;
+
+			sPapel = (Papel) papel;
+
+		} else if (registroCotacao.getCodneg().substring(4, 5).matches("[1-9]")) {
+			Acao papel = new Acao();
+
+			sPapel = (Papel) papel;
+
+		} else {
+			System.out.println("Papel não classificado: \n" + registroCotacao.getCodneg().toString()
+					+ "registroCotacao.getCodneg().substring(4, 5)" + registroCotacao.getCodneg().substring(4, 5)
+					+ "registroCotacao.getCodneg().trim().substring(registroCotacao.getCodneg().trim().length() - 1)"
+					+ registroCotacao.getCodneg().trim().substring(registroCotacao.getCodneg().trim().length() - 1));
 		}
 
 		sPapel.setFatorCotacao(registroCotacao.getFatcot().intValue());
@@ -244,7 +262,7 @@ public class LeitorRegistroCotacaoHistorica {
 		sPapel.setCodigoIsin(registroCotacao.getCodisi());
 		sPapel.setCodigoNegociacao(registroCotacao.getCodneg());
 		sPapel.setEmpresa(registroCotacao.getNomres());
-		
+
 		Mercado merc = mercadoServico.buscar(registroCotacao.getTpmerc().intValue());
 		sPapel.setMercado(merc);
 
@@ -255,14 +273,7 @@ public class LeitorRegistroCotacaoHistorica {
 			sPapel.setCodPapel(codigoPapel);
 		}
 
-		try {
-			papelServico.Inserir(sPapel);
-			papelInserido = papelServico.buscarPorNome(sPapel.getCodigoNegociacao());
-		} catch (ServicoException e) {
-			System.out.println("Erro ao inserir papel: " + sPapel.toString() + "\n" + e.getMessage());
-		}
-
-		return papelInserido;
+		return sPapel;
 	}
 
 	private static RegistroCotacao LeRegistro(String linha, ArrayList<DescritorDeLeiaute> descriptors,
